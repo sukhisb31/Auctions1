@@ -100,3 +100,33 @@ export const register = catchAsyncErrors(async(req, res, next) => {
     //generate token
 
 });
+
+//login function
+export const login = catchAsyncErrors(async(req, res, next)=>{
+    const {email,password} = req.body;
+    //check email and password
+    if(!email || !password){
+        return next(new ErrorHandler("please fill full form", 400));
+    };
+    //find email user
+    const user = await User.findOne({email}).select("+password");
+    //user not found
+    if(!user) {
+        return next(new ErrorHandler("Invalid credentials", 400));
+    };
+    //match password
+    const isPasswordMatch = await user.comparePassword(password);
+    if(!isPasswordMatch){
+        return next(new ErrorHandler("Invalid credentials", 400))
+    };
+    //password and email matched
+    generateToken(user, "Login successfully", 200, res); 
+});
+//get profile
+export const getProfile = catchAsyncErrors(async(req, res, next)=>{});
+//logout function
+export const logout = catchAsyncErrors(async(req, res, next)=>{});
+//fetch LeaderBoard
+export const fetchLeaderboard = catchAsyncErrors(async(req, res, next)=>{});
+
+
