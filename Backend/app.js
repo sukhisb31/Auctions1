@@ -1,11 +1,12 @@
 import { config } from "dotenv";
-import express, { urlencoded } from "express";
+import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import { connection } from "./database/connection.js";
 import { errorMiddleware } from "./middlewares/error.js";
 import userRouter from "./routers/userRouter.js";
+import auctionItemRouter from "./routers/auctionItemRoutes.js";
 const app = express();
 config({
     path: "./config/.env"
@@ -26,6 +27,7 @@ app.use(fileUpload({
 }));
 
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/auctionitem", auctionItemRouter);
 
 connection();
 app.use(errorMiddleware);

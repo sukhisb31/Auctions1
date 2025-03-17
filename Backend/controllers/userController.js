@@ -123,10 +123,33 @@ export const login = catchAsyncErrors(async(req, res, next)=>{
     generateToken(user, "Login successfully", 200, res); 
 });
 //get profile
-export const getProfile = catchAsyncErrors(async(req, res, next)=>{});
+export const getProfile = catchAsyncErrors(async(req, res, next)=>{
+    const user = req.user;
+    res.status(200).json({
+        success: true,
+        user,
+    })
+});
 //logout function
-export const logout = catchAsyncErrors(async(req, res, next)=>{});
+export const logout = catchAsyncErrors(async(req, res, next)=>{
+    res.status(200).cookie("token", "", {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+    }).json({
+        success: true,
+        message: "Logout successfully"
+    })
+});
 //fetch LeaderBoard
-export const fetchLeaderboard = catchAsyncErrors(async(req, res, next)=>{});
+export const fetchLeaderboard = catchAsyncErrors(async(req, res, next)=>{
+    //get users those money spent
+    const users = await User.find({ moneySpent: {$gt: 0 } });
+    //calculate highest money spend user and highest bidder and use sort method
+    const leaderboard = users.sort((a,b)=> b.moneySpent - a.moneySpent);
+    res.status(200).json({
+        success: true,
+        leaderboard,
+    })
+});
 
 

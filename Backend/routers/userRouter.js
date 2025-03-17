@@ -7,7 +7,7 @@ const userRouter = express.Router();
 userRouter.post("/register", register);
 userRouter.post("/login", login);
 userRouter.get("/me", isAuthenticated ,getProfile);
-userRouter.get("/logout", logout);
+userRouter.get("/logout", isAuthenticated ,logout);
 userRouter.get("/leaderboard", fetchLeaderboard);
 
 export default userRouter; 
