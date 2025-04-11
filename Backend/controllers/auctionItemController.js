@@ -182,9 +182,18 @@ export const republishItem = catchAsyncErrors(async(req, res, next)=>{
         return next(new ErrorHandler("Auction starting time must be less than ending time", 400));
      };
      //after ending some values need reset so make function for reset values
+
+     if(auctionItem.highestBidder){
+        const highestBidder = await User.findById(auctionItem.highestBidder);
+        highestBidder.moneySpent -= auctionItem.currentBid;
+        highestBidder.auctionsWon -= 1;
+        await highestBidder.save();
+     }
+
      data.bids = [];
      data.commissionCalculated = false;
-    
+    data.currentBid = 0;
+    data.highestBidder = null;
      auctionItem = await User.findByIdAndUpdate(req.user._id,
         {unpaidCommission: 0},
         {
