@@ -4,6 +4,7 @@ import {User} from "../models/userSchema.js";
 import {Auction} from "../models/auctionSchema.js";
 import {v2 as cloudinary} from "cloudinary";
 import mongoose from "mongoose";
+import {Bid} from "../models/bidSchema.js";
 
 export const addNewAuctionItem = catchAsyncErrors(async(req, res, next)=>{
     //check requested files by user
@@ -194,17 +195,22 @@ export const republishItem = catchAsyncErrors(async(req, res, next)=>{
      data.commissionCalculated = false;
     data.currentBid = 0;
     data.highestBidder = null;
-     auctionItem = await User.findByIdAndUpdate(req.user._id,
+    auctionItem = await Auction.findByIdAndUpdate(id,data, {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+    });
+
+    await Bid.deleteMany({ auctionItem: auctionItem._id});
+     const createdBy = await User.findByIdAndUpdate(
+        req.user._id,
         {unpaidCommission: 0},
         {
             new: true,
             runValidators: false,
             useFindAndModify: false,
         }
-     )
-     const createdBy = await User.findById(req.user._id);
-     createdBy.unpaidCommission = 0,
-     await createdBy.save();
+     );
      res.status(200).json({
         success: true,
         auctionItem,
