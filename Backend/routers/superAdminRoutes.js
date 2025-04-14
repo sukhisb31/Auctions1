@@ -1,51 +1,64 @@
 import express from "express";
+import { isAuthenticated, isAuthorized } from "../middlewares/auth.js";
 import {
   deleteAuctionItem,
   deletePaymentProof,
-  getAllPaymentProofs,
-  getAllPaymentProofDetails,
-  updateProofStatus,
   fetchAllUsers,
+  getAllPaymentProofs,
+  getPaymentProofDetail,
   monthlyRevenue,
+  updateProofStatus,
 } from "../controllers/superAdminController.js";
-import { isAuthenticated, isAuthorized } from "../middlewares/auth.js";
 
-const userRouter = express.Router();
+const router = express.Router();
 
-userRouter.delete(
+router.delete(
   "/auctionitem/delete/:id",
   isAuthenticated,
   isAuthorized("Super Admin"),
   deleteAuctionItem
 );
-userRouter.get(
+
+router.get(
   "/paymentproofs/getall",
   isAuthenticated,
   isAuthorized("Super Admin"),
   getAllPaymentProofs
 );
-userRouter.get(
+
+router.get(
   "/paymentproof/:id",
   isAuthenticated,
   isAuthorized("Super Admin"),
-  getAllPaymentProofDetails
+  getPaymentProofDetail
 );
-userRouter.put(
+
+router.put(
   "/paymentproof/status/update/:id",
   isAuthenticated,
   isAuthorized("Super Admin"),
   updateProofStatus
 );
-userRouter.delete(
+
+router.delete(
   "/paymentproof/delete/:id",
   isAuthenticated,
   isAuthorized("Super Admin"),
   deletePaymentProof
 );
 
-userRouter.get("/users/getall", isAuthenticated, isAuthorized("Super Admin"), fetchAllUsers);
-userRouter.get("/monthlyincome", isAuthenticated, isAuthorized("Super Admin"), monthlyRevenue);
+router.get(
+  "/users/getall",
+  isAuthenticated,
+  isAuthorized("Super Admin"),
+  fetchAllUsers
+);
 
+router.get(
+  "/monthlyincome",
+  isAuthenticated,
+  isAuthorized("Super Admin"),
+  monthlyRevenue
+);
 
-export default userRouter;
- 
+export default router;

@@ -26,7 +26,7 @@ export const proofOfCommission = catchAsyncErrors(async (req, res, next) => {
 
   if (!amount || !comment) {
     return next(
-      new ErrorHandler("Amount & comment are required fields.", 400)
+      new ErrorHandler("Ammount & comment are required fields.", 400)
     );
   }
 
@@ -45,12 +45,12 @@ export const proofOfCommission = catchAsyncErrors(async (req, res, next) => {
       )
     );
   }
-//allowed formats
+
   const allowedFormats = ["image/png", "image/jpeg", "image/webp"];
   if (!allowedFormats.includes(proof.mimetype)) {
     return next(new ErrorHandler("ScreenShot format not supported.", 400));
   }
-//cloudinary
+
   const cloudinaryResponse = await cloudinary.uploader.upload(
     proof.tempFilePath,
     {

@@ -10,29 +10,39 @@ import { isAuthenticated, isAuthorized } from "../middlewares/auth.js";
 import express from "express";
 import { trackCommissionStatus } from "../middlewares/trackCommissionStatus.js";
 
-const userRouter = express.Router();
+const router = express.Router();
 
-userRouter.post(
+router.post(
   "/create",
   isAuthenticated,
   isAuthorized("Auctioneer"),
   trackCommissionStatus,
   addNewAuctionItem
 );
-userRouter.get("/allitems", getAllItems);
-userRouter.get("/auction/:id", isAuthenticated, getAuctionDetails);
-userRouter.delete(
+
+router.get("/allitems", getAllItems);
+
+router.get("/auction/:id", isAuthenticated, getAuctionDetails);
+
+router.get(
+  "/myitems",
+  isAuthenticated,
+  isAuthorized("Auctioneer"),
+  getMyAuctionItems
+);
+
+router.delete(
   "/delete/:id",
   isAuthenticated,
   isAuthorized("Auctioneer"),
   removeFromAuction
 );
-userRouter.get("/myitems", isAuthenticated, isAuthorized("Auctioneer"), getMyAuctionItems)
-userRouter.put(
+
+router.put(
   "/item/republish/:id",
   isAuthenticated,
   isAuthorized("Auctioneer"),
   republishItem
 );
 
-export default userRouter;
+export default router;
