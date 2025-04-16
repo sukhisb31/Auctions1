@@ -42,4 +42,5 @@ endedAuctionCron();
 verifyCommissionCron();
 connection();
 app.use(errorMiddleware);
+
 export default app;

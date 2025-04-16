@@ -17,8 +17,6 @@ const userSchema = new mongoose.Schema({
   address: String,
   phone: {
     type: String,
-    minLength: [11, "Phone Number must caontain exact 11 digits."],
-    maxLength: [11, "Phone Number must caontain exact 11 digits."],
   },
   profileImage: {
     public_id: {
@@ -36,8 +34,8 @@ const userSchema = new mongoose.Schema({
       bankAccountName: String,
       bankName: String,
     },
-    ifsc: {
-      upi_Id: String,
+    upi: {
+      upi_id: String,
     },
     paypal: {
       paypalEmail: String,

@@ -26,7 +26,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
     bankAccountNumber,
     bankAccountName,
     bankName,
-    upi_Id,
+    upi_id,
     paypalEmail,
   } = req.body;
 
@@ -39,7 +39,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
         new ErrorHandler("Please provide your full bank details.", 400)
       );
     }
-    if (!upi_Id) {
+    if (!upi_id) {
       return next(
         new ErrorHandler("Please provide your upi id.", 400)
       );
@@ -84,8 +84,8 @@ export const register = catchAsyncErrors(async (req, res, next) => {
         bankAccountName,
         bankName,
       },
-      ifsc: {
-        upi_Id,
+      upi: {
+        upi_id,
       },
       paypal: {
         paypalEmail,
