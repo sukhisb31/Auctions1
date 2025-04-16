@@ -26,7 +26,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
     bankAccountNumber,
     bankAccountName,
     bankName,
-    easypaisaAccountNumber,
+    upi_Id,
     paypalEmail,
   } = req.body;
 
@@ -39,9 +39,9 @@ export const register = catchAsyncErrors(async (req, res, next) => {
         new ErrorHandler("Please provide your full bank details.", 400)
       );
     }
-    if (!easypaisaAccountNumber) {
+    if (!upi_Id) {
       return next(
-        new ErrorHandler("Please provide your easypaisa account number.", 400)
+        new ErrorHandler("Please provide your upi id.", 400)
       );
     }
     if (!paypalEmail) {
@@ -84,8 +84,8 @@ export const register = catchAsyncErrors(async (req, res, next) => {
         bankAccountName,
         bankName,
       },
-      easypaisa: {
-        easypaisaAccountNumber,
+      ifsc: {
+        upi_Id,
       },
       paypal: {
         paypalEmail,
