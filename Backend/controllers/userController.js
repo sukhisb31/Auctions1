@@ -41,7 +41,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
     }
     if (!upi_id) {
       return next(
-        new ErrorHandler("Please provide your upi id.", 400)
+        new ErrorHandler("Please provide your UPI ID.", 400)
       );
     }
     if (!paypalEmail) {

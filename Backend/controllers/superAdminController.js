@@ -1,10 +1,11 @@
+
 import mongoose from "mongoose";
 import { catchAsyncErrors } from "../middlewares/catchAsyncErrors.js";
 import ErrorHandler from "../middlewares/error.js";
 import { Commission } from "../models/commissionSchema.js";
 import { User } from "../models/userSchema.js";
 import { Auction } from "../models/auctionSchema.js";
-import {PaymentProof} from "../models/commissionProofSchema.js"
+import { PaymentProof } from "../models/commissionProofSchema.js";
 
 export const deleteAuctionItem = catchAsyncErrors(async (req, res, next) => {
   const { id } = req.params;

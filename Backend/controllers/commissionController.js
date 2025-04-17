@@ -26,7 +26,7 @@ export const proofOfCommission = catchAsyncErrors(async (req, res, next) => {
 
   if (!amount || !comment) {
     return next(
-      new ErrorHandler("Amount & comment are required fields.", 400)
+      new ErrorHandler("Ammount & comment are required fields.", 400)
     );
   }
 
